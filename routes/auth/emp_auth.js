@@ -54,4 +54,41 @@ router.post('/signup', async (req,res) => {
 
 });
 
+// @POST  -  /signin
+// Employee Login
+router.post('/signin', async (req, res) => {
+    const { phoneNumber, password } = req.body;
+    
+    // Simple validation
+    if(!phoneNumber || !password) {
+        return res.status(400).json({ message: 'Please enter al fields' });
+    };
+
+    try { 
+        // Check for existing user 
+        const user = await Employee.findOne({ phoneNumber });
+        if (!user) throw Error('Employee user does not exist');
+
+        // Check for password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) throw Error('Invalid credentials');
+
+        const token = jwt.sign({ id: user._id, email: user.email, type: user.type}, process.env.jwt_secret, { expiresIn: 3600 });
+        if (!token) throw Error('Couldnt sign the token');
+
+        res.send(
+            {
+                success: true, 
+                token: token, 
+                message: `Agent user ${user.name} is logged in..`
+        });
+
+    } catch(error){
+        res.send({ 
+            success: false,
+            message: error.message
+        });
+    }
+});
+
 module.exports = router;
