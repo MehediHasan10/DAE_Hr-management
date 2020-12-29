@@ -1,3 +1,4 @@
+//Registration authentication secret model
 const {model, Schema} = require('mongoose');
 
 // Secret constructor

@@ -4,15 +4,15 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const Employee = require('../../schema/auth/emp_auth');
-const Secret = require('../../schema/secret/secret');
+const Secret = require('../../schema/secret/reg_secret');
 
 // @POST  -  /signup
 // Employee Registration
-router.post('/signup', async (req,res) => {
-    const { name, email, password, phoneNumber, secret } = req.body;
+router.post('/signup_api', async (req,res) => {
+    const { name, dob, pscMerit, appointmentGOdate, nationalId, email, password, phoneNumber, secret } = req.body;
 
     // Simple validation
-    if (!name || !email || !password || !phoneNumber) {
+    if (!name || !dob || !pscMerit || !appointmentGOdate || !nationalId || !email || !password || !phoneNumber || !secret) {
         return res.status(400).json({ message : "PLease enter all fields"});
     };
 
@@ -35,6 +35,10 @@ router.post('/signup', async (req,res) => {
 
         const newEmployee = new Employee({
             name,
+            dob,
+            pscMerit,
+            appointmentGOdate,
+            nationalId,
             email,
             phoneNumber,
             password: hash
@@ -56,12 +60,12 @@ router.post('/signup', async (req,res) => {
 
 // @POST  -  /signin
 // Employee Login
-router.post('/signin', async (req, res) => {
+router.post('/signin_api', async (req, res) => {
     const { phoneNumber, password } = req.body;
     
     // Simple validation
     if(!phoneNumber || !password) {
-        return res.status(400).json({ message: 'Please enter al fields' });
+        return res.status(400).json({ message: 'Please enter all fields' });
     };
 
     try { 
