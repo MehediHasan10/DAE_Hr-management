@@ -8,4 +8,3 @@ const CadreDesignation = new Schema({
 }); 
 
 module.exports = model('cadre_designation', CadreDesignation);
-

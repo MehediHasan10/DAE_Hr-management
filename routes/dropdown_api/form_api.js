@@ -1,6 +1,8 @@
 const router = require('express').Router();
 
 const DistrictModel = require('../../schema/dropdown_api/district_api');
+const UpazillaModel = require('../../schema/dropdown_api/upazilla_api');
+const PostOfficeModel = require('../../schema/dropdown_api/postOffice_api');
 const BcsBatchModel = require('../../schema/dropdown_api/bcs_batch');
 const BcsRankModel = require('../../schema/dropdown_api/bcs_rank');
 const BcsDivisionModel = require('../../schema/dropdown_api/bcs_division');
@@ -22,6 +24,42 @@ router.post('/addDistrict', async (req, res) => {
             success: false, 
             message: error.message 
         });        
+    }
+});
+
+// @POST  -  /addUpazilla
+// API for adding upazilla
+router.post('/addUpazilla', async (req, res) =>{
+    try{
+        const upazillaName = new UpazillaModel(req.body);
+        await upazillaName.save();
+        res.send({ 
+            success: true,
+            message: `New Upazilla name is added !`
+        });
+    } catch(error){
+        res.send({
+            success: false, 
+            message: error.message 
+        });  
+    }
+});
+
+// @POST  -  /addPostOffice
+// API for adding Post Office
+router.post('/addPostOffice', async (req, res) => {
+    try{
+        const postOfficeName = new PostOfficeModel(req.body);
+        await postOfficeName.save();
+        res.send({ 
+            success: true,
+            message: `New Post Office name is added !`
+        });
+    } catch(error){
+        res.send({
+            success: false, 
+            message: error.message 
+        }); 
     }
 });
 
@@ -115,6 +153,5 @@ router.post('/addDesignation', async (req, res) => {
         });
     }
 });
-
 
 module.exports = router;

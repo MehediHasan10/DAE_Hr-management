@@ -28,5 +28,7 @@ db.once('open', () => {
 app.use('/api/employeeAuth', require('./routes/auth/emp_auth'));
 app.use('/api/dropdownApi', require('./routes/dropdown_api/form_api'));
 
+app.use('/api/dbForms', require('./routes/db_forms/employeeInfo'));
+
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`> Server listening on port ${port}...`));

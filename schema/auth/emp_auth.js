@@ -1,6 +1,7 @@
 const { model,Schema } = require('mongoose');
 
 // Employee auth model constructor
+// This is also a part of the employee database (Basic info model)
 const EmployeeSchema = new Schema({
     name: {
         type: String,
